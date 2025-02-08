@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Dodamo dinamično konfiguracijo
-export const dynamic = 'force-dynamic';
-// Alternativno lahko uporabimo tudi:
-// export const runtime = 'edge';
-
 export interface ContactFormData {
   name: string;
   email: string;
   message: string;
 }
 
+// Moramo exportati POST kot privzeto funkcijo
 export async function POST(request: NextRequest) {
   try {
     const data: ContactFormData = await request.json();
@@ -42,6 +38,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// Dodamo GET metodo, da preprečimo 405 napako pri OPTIONS requestih
 export async function GET() {
   return NextResponse.json(
     { message: 'Only POST requests are allowed' },
