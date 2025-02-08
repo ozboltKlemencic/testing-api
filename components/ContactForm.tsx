@@ -33,7 +33,7 @@ export default function ContactForm() {
         setStatus('error');
       }
     } catch (error) {
-        console.log(error)
+      console.error('Error submitting form:', error);
       setStatus('error');
     }
   };

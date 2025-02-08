@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export interface ContactFormData {
   name: string;
@@ -6,7 +6,8 @@ export interface ContactFormData {
   message: string;
 }
 
-export async function POST(request: Request) {
+// Moramo exportati POST kot privzeto funkcijo
+export async function POST(request: NextRequest) {
   try {
     const data: ContactFormData = await request.json();
 
@@ -29,10 +30,18 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error)
+    console.error('Error processing request:', error);
     return NextResponse.json(
       { message: 'Napaka pri procesiranju zahteve' },
       { status: 500 }
     );
   }
+}
+
+// Dodamo GET metodo, da preprečimo 405 napako pri OPTIONS requestih
+export async function GET() {
+  return NextResponse.json(
+    { message: 'Only POST requests are allowed' },
+    { status: 405 }
+  );
 }
